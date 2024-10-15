@@ -1,0 +1,115 @@
+body {
+  font-family: cursive;
+  background-color: #fff;
+  color: #3d2101;
+}
+
+nav {
+  background: #007bff;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 600px;
+  max-height: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff3b0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(44, 31, 31, 0.897);
+}
+
+h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+input {
+  width: calc(100% - 80px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  
+}
+
+
+button {
+  padding: 10px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.addbutton {
+background-color: rgb(206, 196, 56);
+margin-left: 12px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #fff;
+}
+
+.edit-button, .delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.table {
+  max-width: 1000px;
+}
+
+.title {
+  text-align: center;
+  font-size: 20px;
+}
+th, td {
+   padding: 8px;
+border-radius: 5px;
+}
+
+tr:nth-child(even){background-color: #e09f3e}
+
+th {
+  background-color: #04AA6D;
+  color: white;
+}
+.clicked input {
+  width: calc(102% - 80px);
+  border-color: #e09f3e;
+}
+.savebtn {
+  background-color: #335c67;
+  margin-right: 10px;;
+}
+.savebtn:hover {
+  background-color:#0b4657 ;
+}
+
+.deletebtn {
+  background-color: #9e2a2b;
+}
+.deletebtn:hover {
+  background-color:#9c181a ;
+}
