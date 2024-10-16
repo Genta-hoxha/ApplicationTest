@@ -207,3 +207,8 @@ margin-top: -2%;
   background-color: #3498db; /* Blue for cancel */
   color: white;
 }
+
+
+.flag button {
+  background-color: transparent;
+}

@@ -10,6 +10,8 @@ import CompletedTasks from './components/CompletedTasks';
 import UncompletedTasks from './components/UncompletedTasks';
 import { Task } from '../tasks';
 import logo from '../src/logo.png';
+
+import LanguageSelector from './components/LanguageSelector';
 // Defines the structure of a task object
 // interface Task {
 //   id: string;
@@ -77,6 +79,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="container">
+        <LanguageSelector />
     
         <nav style={{ display: 'flex', justifyContent: 'center', padding: '10px', background: '#C9c9c9' }}>
         <Link to="">
