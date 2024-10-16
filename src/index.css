@@ -30,8 +30,11 @@ nav a {
 h1 {
   text-align: center;
   margin-top: 10px;
+  color:#21244d;
 }
-
+h2 {
+  margin-top: 0%;
+}
 
 
 
@@ -145,12 +148,11 @@ input, textarea {
 
 
 .right {
-  width: 85%;
+  width: 65%;
+  margin-left: 10%;
 }
 
-.row {
-  padding:30px;
-}
+
 .row:after {
   content: "";
   display: table;
@@ -159,7 +161,7 @@ input, textarea {
 .column.left {
 width: 15%;
 margin-left: -2%;
-    margin-top: -2%;
+margin-top: -2%;
 }
 .modal {
   position: fixed;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TaskForm from './TaskForm';
-import { Task } from '../tasks';
+import { Task } from '../../tasks';
 // interface Task {
 //   id: string;
 //   title: string;

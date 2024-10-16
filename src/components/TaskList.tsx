@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
-import { Task } from '../tasks';
+import { Task } from '../../tasks';
+import './taskitem.css'
+
 
 interface TaskListProps {
   tasks: Task[];
@@ -29,7 +31,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, 
 
   return (
     <div className='list'>
-      <h2>Tasks</h2>
+      <h2>MY TASKS</h2>
 
       {sortedTasks.map(task => (
         <TaskItem 
@@ -59,7 +61,8 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void; onConfirm: () => v
       <div className="modal-content">
         <h4>Confirm Deletion</h4>
         <p>Are you sure you want to delete this task?</p>
-        <button onClick={onConfirm}>Yes, Delete</button>
+        <button onClick={onConfirm} style={{marginRight:'5px'}}>Yes, Delete</button>
+   
         <button onClick={onClose}>Cancel</button>
       </div>
     </div>
@@ -67,6 +70,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void; onConfirm: () => v
 };
 
 // TaskItem component to handle individual tasks
+
 const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleComplete: (id: string) => void; onEdit: (id: string, updatedTask: Partial<Task>) => void; }> = ({ task, onDelete, onToggleComplete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
@@ -79,7 +83,13 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
   };
 
   return (
-    <div className={`task ${task.completed ? 'completed' : ''}`}>
+    <div className={`task-card ${task.completed ? 'completed' : ''}`}>
+    {task.completed ? (
+      <button className="completed-tag">Completed</button>
+    ) : (
+      <button className="uncompleted-tag">Uncompleted</button>
+    )}
+
       {isEditing ? (
         <>
           <input 
@@ -97,8 +107,8 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
             onChange={(e) => setTags(e.target.value)} 
             placeholder="Tags (comma separated)" 
           />
+
           <button onClick={handleSave}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
         </>
       ) : (
         <>
@@ -107,13 +117,13 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
             <span onClick={() => setIsEditing(true)} style={{ cursor: 'pointer', color: 'blue' }}>✏️</span>
           </h3>
           <p>{task.description}</p>
-          <p>Tags: {task.tags.join(', ')}</p>
-          <p>Created on: {new Date(task.creationDate).toLocaleDateString()} at {new Date(task.creationDate).toLocaleTimeString()}</p>
-
+          <p><span style={{fontSize: '20px', color: '#e350a8'}}>Tags:</span> {task.tags.join(', ')}</p>
+          <p><span style={{fontSize: '20px', color: '#9543a7'}}>Created on:</span>{new Date(task.creationDate).toLocaleDateString()} at {new Date(task.creationDate).toLocaleTimeString()}</p>
+          <div className='btn'>
           <button onClick={() => onToggleComplete(task.id)}>
             {task.completed ? 'Completed' : 'Mark as Completed'}
           </button>
-          <button onClick={() => onDelete(task.id)}>Delete</button>
+          <button onClick={() => onDelete(task.id)}>Delete</button></div>
         </>
       )}
     </div>
@@ -121,3 +131,5 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
 };
 
 export default TaskList;
+
+

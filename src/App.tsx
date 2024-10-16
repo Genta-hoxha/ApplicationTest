@@ -8,8 +8,8 @@ import TaskDetails from './components/TaskDetails';
 import ContactUs from './components/ContactUs';
 import CompletedTasks from './components/CompletedTasks';
 import UncompletedTasks from './components/UncompletedTasks';
-import { Task } from './tasks';
-
+import { Task } from '../tasks';
+import logo from '../src/logo.png';
 // Defines the structure of a task object
 // interface Task {
 //   id: string;
@@ -77,12 +77,18 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="container">
-        <h1>My Task Application</h1>
-      
+    
         <nav style={{ display: 'flex', justifyContent: 'center', padding: '10px', background: '#C9c9c9' }}>
+        <Link to="">
+                <img 
+                    src={logo} 
+                    alt="MyTaskapp"
+                    style={{ height: '40px', marginRight: '10px' }} 
+                />
+            </Link>
            <Link to="/" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Home</Link>
-           <Link to="/aboutus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>About Us</Link>
-           <Link to="/contactus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Contact Us</Link>
+           {/* <Link to="/aboutus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>About Us</Link>
+           <Link to="/contactus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Contact Us</Link> */}
            <Link to="/completedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Completed Tasks</Link>
            <Link to="/uncompletedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Uncompleted Tasks</Link>
            <input
@@ -111,8 +117,8 @@ const App: React.FC = () => {
               />
             </>
           } />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUs />} />
+          {/* <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/completedtasks" element={<CompletedTasks tasks={tasks} />} />
           <Route path="/uncompletedtasks" element={<UncompletedTasks tasks={tasks} />} />
           <Route path="/task/:id" element={<TaskDetails tasks={tasks} />} />

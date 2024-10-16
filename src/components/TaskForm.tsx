@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import { Task } from '../tasks';
+import { Task } from '../../tasks';
 
 interface TaskFormProps {
   onTaskAdded: (task: Task) => void;
@@ -88,7 +88,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
             onChange={e => setTags(e.target.value)}
             aria-label="Task Tags"
           />
-          <br />
+          <br /> <br />
           {error && <div className="error-message">{error}</div>}
           <button type="submit" disabled={loading}>
             {loading ? 'Adding...' : 'Add Task'}
@@ -113,8 +113,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
           }}
         />
         <div className="task-info">
-          <p>Completed Tasks: {taskInfo.completed}</p>
-          <p>Uncompleted Tasks: {taskInfo.uncompleted}</p>
+          <p style={{color: '#4caf50'}}>Completed Tasks: {taskInfo.completed}</p>
+          <p style={{color: '#f44336'}}>Uncompleted Tasks: {taskInfo.uncompleted}</p>
         </div>
       </div>
     </div>
