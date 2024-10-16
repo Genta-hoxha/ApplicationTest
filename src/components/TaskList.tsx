@@ -1,14 +1,6 @@
-import React, { useState } from 'react';
 
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  creationDate: Date;
-  tags: string[];
-  completed: boolean;
-  get uncompleted(): boolean; 
-}
+import React, { useState } from 'react';
+import { Task } from '../tasks';
 
 interface TaskListProps {
   tasks: Task[];
@@ -17,46 +9,64 @@ interface TaskListProps {
   onEdit: (id: string, updatedTask: Partial<Task>) => void;
 }
 
-
-//functional component
-// const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, onEdit }) => {
-//   return (
-//     <div className='list'>
-//       <h2>Tasks</h2>
-//       {tasks.map(task => (
-//         <div key={task.id} className={`task ${task.completed ? 'completed' : ''}`}>
-//           <h3>{task.title}</h3>
-//           <p>{task.description}</p>
-//           <p>Tags: {task.tags.join(', ')}</p>
-//           <p>Created on: {new Date(task.creationDate).toLocaleDateString()}</p>
-//           <button onClick={() => onToggleComplete(task.id)}>
-//             {task.completed ? 'Completed' : 'Mark as Completed'}
-//           </button>
-//           <button onClick={() => onDelete(task.id)}>Edit</button>
-//           <button onClick={() => onDelete(task.id)}>Delete</button>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
 const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, onEdit }) => {
+  const sortedTasks = [...tasks].sort((a, b) => new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime());
+  const [showModal, setShowModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
+
+  const handleDeleteClick = (id: string) => {
+    setTaskToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (taskToDelete) {
+      onDelete(taskToDelete);
+      setTaskToDelete(null);
+      setShowModal(false);
+    }
+  };
+
   return (
     <div className='list'>
       <h2>Tasks</h2>
-      {tasks.map(task => (
+
+      {sortedTasks.map(task => (
         <TaskItem 
           key={task.id} 
           task={task} 
-          onDelete={onDelete} 
           onToggleComplete={onToggleComplete} 
           onEdit={onEdit} 
+          onDelete={handleDeleteClick} 
         />
       ))}
+
+      <Modal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)} 
+        onConfirm={handleConfirmDelete} 
+      />
     </div>
   );
 };
 
-// TaskItem component to handle individual task
+// Confirmation of modal component
+const Modal: React.FC<{ isOpen: boolean; onClose: () => void; onConfirm: () => void; }> = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>Are you sure you want to delete this task?</p>
+        <button onClick={onConfirm}>Yes, Delete</button>
+        <button onClick={onClose}>Cancel</button>
+      </div>
+    </div>
+  );
+};
+
+// TaskItem component to handle individual tasks
 const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleComplete: (id: string) => void; onEdit: (id: string, updatedTask: Partial<Task>) => void; }> = ({ task, onDelete, onToggleComplete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
@@ -64,7 +74,6 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
   const [tags, setTags] = useState(task.tags.join(', '));
 
   const handleSave = () => {
-    console.log('Saving:', { title, description, tags });
     onEdit(task.id, { title, description, tags: tags.split(',').map(tag => tag.trim()) });
     setIsEditing(false);
   };
@@ -93,10 +102,14 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
         </>
       ) : (
         <>
-          <h3>{task.title} <span onClick={() => setIsEditing(true)} style={{ cursor: 'pointer', color: 'blue' }}>✏️</span></h3>
+          <h3>
+            {task.title} 
+            <span onClick={() => setIsEditing(true)} style={{ cursor: 'pointer', color: 'blue' }}>✏️</span>
+          </h3>
           <p>{task.description}</p>
           <p>Tags: {task.tags.join(', ')}</p>
-          <p>Created on: {new Date(task.creationDate).toLocaleDateString()}</p>
+          <p>Created on: {new Date(task.creationDate).toLocaleDateString()} at {new Date(task.creationDate).toLocaleTimeString()}</p>
+
           <button onClick={() => onToggleComplete(task.id)}>
             {task.completed ? 'Completed' : 'Mark as Completed'}
           </button>

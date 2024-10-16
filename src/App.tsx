@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -9,49 +8,44 @@ import TaskDetails from './components/TaskDetails';
 import ContactUs from './components/ContactUs';
 import CompletedTasks from './components/CompletedTasks';
 import UncompletedTasks from './components/UncompletedTasks';
+import { Task } from './tasks';
 
-//Defines the structure of a task object
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  creationDate: Date;
-  tags: string[];
-  completed: boolean;
-  get uncompleted(): boolean; 
-}
+// Defines the structure of a task object
+// interface Task {
+//   id: string;
+//   title: string;
+//   description: string;
+//   creationDate: Date;
+//   tags: string[];
+//   completed: boolean;
+//   get uncompleted(): boolean; 
+// }
 
-//main functional component of the application
+// Main functional component of the application
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-
-
-  
-  useEffect(() => {  //runs once on component mount
-    const fetchTasks = async () => { // fetch ansync tasks from backend API and updates state with fetched tasks
+  useEffect(() => {  // Runs once on component mount
+    const fetchTasks = async () => { // Fetch async tasks from backend API and updates state
       const response = await axios.get('http://localhost:5000/api/tasks');
       setTasks(response.data.tasks);
     };
     fetchTasks();
   }, []);
 
-
-  //adding a new task
+  // Adding a new task
   const addTask = (newTask: Task) => {
     setTasks(prevTasks => [...prevTasks, newTask]);
   };
 
-
-  //deleting a task
+  // Deleting a task
   const deleteTask = async (id: string) => {
     await axios.delete(`http://localhost:5000/api/tasks/${id}`);
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
 
-
-  //toggle completed status of a task
+  // Toggle completed status of a task
   const toggleComplete = async (id: string) => {
     const task = tasks.find(t => t.id === id);
     if (task) {
@@ -67,7 +61,7 @@ const App: React.FC = () => {
     );
   };
 
-  //searching a task
+  // Searching a task
   const searchTasks = (term: string) => {
     const isCompletedFilter = term.toLowerCase() === 'completed';
     const isUncompletedFilter = term.toLowerCase() === 'uncompleted';
@@ -80,8 +74,6 @@ const App: React.FC = () => {
     );
   };
 
-  
-
   return (
     <Router>
       <div className="container">
@@ -89,22 +81,36 @@ const App: React.FC = () => {
       
         <nav style={{ display: 'flex', justifyContent: 'center', padding: '10px', background: '#C9c9c9' }}>
            <Link to="/" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Home</Link>
-         <Link to="/aboutus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>About Us</Link>
-         <Link to="/contactus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Contact Us</Link>
-         <Link to="/completedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Completed Tasks</Link>
-         <Link to="/uncompletedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Uncompleted Tasks</Link>
-      <input
-      style={{display: 'flex', justifyContent: 'flex-end', padding: '10px', background: '#f0f0f0'}}
-      className='search'
-        type="text"
-        placeholder="Search tasks..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+           <Link to="/aboutus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>About Us</Link>
+           <Link to="/contactus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Contact Us</Link>
+           <Link to="/completedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Completed Tasks</Link>
+           <Link to="/uncompletedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Uncompleted Tasks</Link>
+           <input
+             style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', background: '#f0f0f0' }}
+             className='search'
+             type="text"
+             placeholder="🔍  Search tasks..."
+             value={searchTerm}
+             onChange={(e) => setSearchTerm(e.target.value)}
+           />
         </nav>
+
         <Routes>
-          <Route path="/" element={<><TaskForm onTaskAdded={addTask} />
-          <TaskList tasks={searchTasks(searchTerm)} onDelete={deleteTask} onToggleComplete={toggleComplete} onEdit={handleEditTask } /></>} />
+          <Route path="/" element={
+                      <>
+              <TaskForm 
+                onTaskAdded={addTask}
+                completedTasksCount={tasks.filter(task => task.completed).length} 
+                totalTasksCount={tasks.length} 
+              />
+              <TaskList 
+                tasks={searchTasks(searchTerm)} 
+                onDelete={deleteTask} 
+                onToggleComplete={toggleComplete} 
+                onEdit={handleEditTask} 
+              />
+            </>
+          } />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/completedtasks" element={<CompletedTasks tasks={tasks} />} />
@@ -117,4 +123,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

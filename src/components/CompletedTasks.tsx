@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  creationDate: Date;
-  tags: string[];
-  completed: boolean;
-}
+import { Task } from '../tasks';
+// interface Task {
+//   id: string;
+//   title: string;
+//   description: string;
+//   creationDate: Date;
+//   tags: string[];
+//   completed: boolean;
+// }
 
 interface CompletedTasksProps {
   tasks: Task[];

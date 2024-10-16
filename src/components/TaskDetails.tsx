@@ -3,15 +3,14 @@
 //the component receives a list of taska as a prop and uses the useParams hook to extract the task ID from the URL
 import React from 'react';
 import { useParams } from 'react-router-dom';
-
-
+import { Task } from '../tasks';
 //defined a Task interface that represent the structure of a task object
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-}
+// interface Task {
+//   id: string;
+//   title: string;
+//   description: string;
+//   completed: boolean;
+// }
 
 
 //defines the expected props for the component

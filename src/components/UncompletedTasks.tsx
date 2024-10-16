@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { StringLiteral } from "typescript";
-
-interface Task {
-    id: string;
-    title: string;
-    description: string,
-    creationDate: Date;
-    tags: string[];
-    completed: boolean;
-    get uncompleted(): boolean; 
-}
+import { Task } from "../tasks";
+// interface Task {
+//     id: string;
+//     title: string;
+//     description: string,
+//     creationDate: Date;
+//     tags: string[];
+//     completed: boolean;
+//     get uncompleted(): boolean; 
+// }
 
 interface UncompletedTasksProps {
     tasks: Task[];
