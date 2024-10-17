@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Task } from '../../tasks';
 import './taskitem.css'
-
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface TaskListProps {
   tasks: Task[];
@@ -11,7 +12,11 @@ interface TaskListProps {
   onEdit: (id: string, updatedTask: Partial<Task>) => void;
 }
 
+type TranslationKeys = 'title' | 'description' | 'completed' | 'uncompleted' | 'delete' | 'save' | 'tags' | 'createdon' | 'unbutton' ;
+
 const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, onEdit }) => {
+  
+  const { t } = useTranslation<TranslationKeys>();
   const sortedTasks = [...tasks].sort((a, b) => new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime());
   const [showModal, setShowModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
@@ -31,7 +36,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, 
 
   return (
     <div className='list'>
-      <h2>MY TASKS</h2>
+      {/* <h2>{t('title')}</h2> */}
 
       {sortedTasks.map(task => (
         <TaskItem 
@@ -52,7 +57,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onToggleComplete, 
   );
 };
 
-// Confirmation of modal component
 const Modal: React.FC<{ isOpen: boolean; onClose: () => void; onConfirm: () => void; }> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
@@ -69,25 +73,32 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void; onConfirm: () => v
   );
 };
 
+
+
+
 // TaskItem component to handle individual tasks
 
 const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleComplete: (id: string) => void; onEdit: (id: string, updatedTask: Partial<Task>) => void; }> = ({ task, onDelete, onToggleComplete, onEdit }) => {
+  const { t } = useTranslation<TranslationKeys>();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [tags, setTags] = useState(task.tags.join(', '));
+
 
   const handleSave = () => {
     onEdit(task.id, { title, description, tags: tags.split(',').map(tag => tag.trim()) });
     setIsEditing(false);
   };
 
+ 
+
   return (
     <div className={`task-card ${task.completed ? 'completed' : ''}`}>
     {task.completed ? (
-      <button className="completed-tag">Completed</button>
+      <button className="completed-tag">{t('completed')}</button>
     ) : (
-      <button className="uncompleted-tag">Uncompleted</button>
+      <button className="uncompleted-tag">{t('uncompleted')}</button>
     )}
 
       {isEditing ? (
@@ -108,22 +119,22 @@ const TaskItem: React.FC<{ task: Task; onDelete: (id: string) => void; onToggleC
             placeholder="Tags (comma separated)" 
           />
 
-          <button onClick={handleSave}>Save</button>
+          <button onClick={handleSave}>{t('save')}</button>
         </>
       ) : (
         <>
           <h3>
-            {task.title} 
-            <span onClick={() => setIsEditing(true)} style={{ cursor: 'pointer', color: 'blue' }}>✏️</span>
+            {task.title}           <span onClick={() => setIsEditing(true)} style={{ cursor: 'pointer', color: 'blue' }}> ✏️</span>
           </h3>
-          <p>{task.description}</p>
-          <p><span style={{fontSize: '20px', color: '#e350a8'}}>Tags:</span> {task.tags.join(', ')}</p>
-          <p><span style={{fontSize: '20px', color: '#9543a7'}}>Created on:</span>{new Date(task.creationDate).toLocaleDateString()} at {new Date(task.creationDate).toLocaleTimeString()}</p>
+          <p>{task.description}</p>         
+          <p><span style={{fontSize: '20px', color: '#e350a8'}}>{t('tags')}:</span> {task.tags.join(', ')}</p>
+          <p><span style={{fontSize: '20px', color: '#9543a7'}}>{t('createdon')}:</span>{new Date(task.creationDate).toLocaleDateString()} at {new Date(task.creationDate).toLocaleTimeString()}</p>
           <div className='btn'>
           <button onClick={() => onToggleComplete(task.id)}>
-            {task.completed ? 'Completed' : 'Mark as Completed'}
-          </button>
-          <button onClick={() => onDelete(task.id)}>Delete</button></div>
+  {task.completed ? t('completed') : t('unbutton')}
+</button>
+
+          <button onClick={() => onDelete(task.id)}>{t('delete')}</button></div>
         </>
       )}
     </div>

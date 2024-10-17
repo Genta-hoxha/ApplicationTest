@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "tasks.tsx"  ]
+, "tasks.tsx", "backend/tsconfig.json"  ]
 }

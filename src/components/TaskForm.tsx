@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Task } from '../../tasks';
+import { useTranslation } from 'react-i18next';
 
 interface TaskFormProps {
   onTaskAdded: (task: Task) => void;
@@ -12,6 +13,7 @@ interface TaskFormProps {
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, totalTasksCount }) => {
+  const { t } = useTranslation();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tags, setTags] = useState<string>('');
@@ -41,7 +43,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
       creationDate: new Date(),
       tags: tags.split(',').map(tag => tag.trim()),
       completed: false,
-      uncompleted: false
+      uncompleted: false,
+      taskTitle: function (arg0: string, taskTitle: any): import(
+        "react").ReactNode | Iterable<import("react").ReactNode> {
+          throw new Error('Function not implemented.');
+      }
     };
 
     try {
@@ -51,7 +57,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
       setDescription('');
       setTags('');
     } catch (error) {
-      setError('Error adding task. Please try again.');
+      setError(t('taskForm.errorAddingTask'));
       console.error('Error adding task:', error);
     } finally {
       setLoading(false);
@@ -68,14 +74,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
         <form onSubmit={handleSubmit} className='form' onMouseMove={handleMouseMove}>
           <input
             type="text"
-            placeholder="Task Title"
+            placeholder={t('taskForm.titlePlaceholder')}
             value={title}
             onChange={e => setTitle(e.target.value)}
             required
             aria-label="Task Title"
           />
           <textarea
-            placeholder="Task Description"
+            placeholder={t('taskForm.descriptionPlaceholder')}
             value={description}
             onChange={e => setDescription(e.target.value)}
             required
@@ -83,7 +89,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
           />
           <input
             type="text"
-            placeholder="Tags (comma separated)"
+            placeholder={t('taskForm.tagsPlaceholder')}
             value={tags}
             onChange={e => setTags(e.target.value)}
             aria-label="Task Tags"
@@ -91,7 +97,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
           <br /> <br />
           {error && <div className="error-message">{error}</div>}
           <button type="submit" disabled={loading}>
-            {loading ? 'Adding...' : 'Add Task'}
+            {loading ? t('taskForm.addingButton') : t('taskForm.addButton')}
           </button>
         </form>
       </div>
@@ -113,8 +119,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, completedTasksCount, t
           }}
         />
         <div className="task-info">
-          <p style={{color: '#4caf50'}}>Completed Tasks: {taskInfo.completed}</p>
-          <p style={{color: '#f44336'}}>Uncompleted Tasks: {taskInfo.uncompleted}</p>
+          <p style={{ color: '#4caf50' }}>
+            {t('completedTasks'
+            )}: {taskInfo.completed}
+          </p>
+          <p style={{ color: '#f44336' }}>
+            {t('uncompletedTasks')}: {taskInfo.uncompleted}
+          </p>
         </div>
       </div>
     </div>

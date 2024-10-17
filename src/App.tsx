@@ -10,26 +10,18 @@ import CompletedTasks from './components/CompletedTasks';
 import UncompletedTasks from './components/UncompletedTasks';
 import { Task } from '../tasks';
 import logo from '../src/logo.png';
+import alFlag from '../src/alflag.png';
+import itFlag from '../src/itflag.png';
+import ukFlag from '../src/ukflag.png';
+import { useTranslation } from 'react-i18next';
 
-import LanguageSelector from './components/LanguageSelector';
-// Defines the structure of a task object
-// interface Task {
-//   id: string;
-//   title: string;
-//   description: string;
-//   creationDate: Date;
-//   tags: string[];
-//   completed: boolean;
-//   get uncompleted(): boolean; 
-// }
-
-// Main functional component of the application
 const App: React.FC = () => {
+  const { t, i18n } = useTranslation(); 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {  // Runs once on component mount
-    const fetchTasks = async () => { // Fetch async tasks from backend API and updates state
+  useEffect(() => {
+    const fetchTasks = async () => {
       const response = await axios.get('http://localhost:5000/api/tasks');
       setTasks(response.data.tasks);
     };
@@ -56,7 +48,7 @@ const App: React.FC = () => {
       setTasks(prevTasks => prevTasks.map(t => (t.id === id ? updatedTask : t)));
     }
   };
-  
+
   const handleEditTask = (id: string, updatedTask: Partial<Task>) => {
     setTasks(prevTasks =>
       prevTasks.map(task => (task.id === id ? { ...task, ...updatedTask } : task))
@@ -76,37 +68,48 @@ const App: React.FC = () => {
     );
   };
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <Router>
       <div className="container">
-        <LanguageSelector />
-    
         <nav style={{ display: 'flex', justifyContent: 'center', padding: '10px', background: '#C9c9c9' }}>
-        <Link to="">
-                <img 
-                    src={logo} 
-                    alt="MyTaskapp"
-                    style={{ height: '40px', marginRight: '10px' }} 
-                />
-            </Link>
-           <Link to="/" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Home</Link>
-           {/* <Link to="/aboutus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>About Us</Link>
-           <Link to="/contactus" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Contact Us</Link> */}
-           <Link to="/completedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Completed Tasks</Link>
-           <Link to="/uncompletedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>Uncompleted Tasks</Link>
-           <input
-             style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', background: '#f0f0f0' }}
-             className='search'
-             type="text"
-             placeholder="🔍  Search tasks..."
-             value={searchTerm}
-             onChange={(e) => setSearchTerm(e.target.value)}
-           />
+          <Link to="">
+            <img 
+              src={logo} 
+              alt="MyTaskapp"
+              style={{ height: '40px', marginRight: '10px' }} 
+            />
+          </Link>
+          <Link to="/" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>{t('Home')}</Link>
+          <Link to="/completedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>{t('completedTasks')}</Link>
+          <Link to="/uncompletedtasks" style={{ textDecoration: 'none', color: '#333', padding: '10px' }}>{t('uncompletedTasks')}</Link>
+          <input
+            style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', background: '#f0f0f0' }}
+            className='search'
+            type="text"
+            placeholder="🔍  Search tasks..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="flag">
+            <button onClick={() => changeLanguage('en')}>
+              <img src={ukFlag} alt="English" width={30} />
+            </button>
+            <button onClick={() => changeLanguage('it')}>
+              <img src={itFlag} alt="Italian" width={30} />
+            </button>
+            <button onClick={() => changeLanguage('sq')}>
+              <img src={alFlag} alt="Albanian" width={30} />
+            </button>
+          </div>
         </nav>
 
         <Routes>
           <Route path="/" element={
-                      <>
+            <>
               <TaskForm 
                 onTaskAdded={addTask}
                 completedTasksCount={tasks.filter(task => task.completed).length} 
@@ -120,10 +123,9 @@ const App: React.FC = () => {
               />
             </>
           } />
-          {/* <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/completedtasks" element={<CompletedTasks tasks={tasks} />} />
           <Route path="/uncompletedtasks" element={<UncompletedTasks tasks={tasks} />} />
+          
           <Route path="/task/:id" element={<TaskDetails tasks={tasks} />} />
         </Routes>
       </div>

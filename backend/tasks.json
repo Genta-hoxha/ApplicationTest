@@ -1,39 +1,19 @@
 [
   {
-    "id": "1728996559259",
-    "title": "task1",
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t",
-    "creationDate": "2024-10-15T12:49:19.259Z",
+    "id": "1729169329310",
+    "title": "Task 1",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "creationDate": "2024-10-17T12:48:49.310Z",
     "tags": [
       "work"
     ],
     "completed": false
   },
   {
-    "id": "1729072493284",
-    "title": "task10",
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t\n\n",
-    "creationDate": "2024-10-16T09:54:53.284Z",
-    "tags": [
-      "work"
-    ],
-    "completed": true
-  },
-  {
-    "id": "1729081210890",
-    "title": "task1",
-    "description": "Ipsum has been the industry's standard dummy t Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy ",
-    "creationDate": "2024-10-16T12:20:10.890Z",
-    "tags": [
-      "personal"
-    ],
-    "completed": false
-  },
-  {
-    "id": "1729085302324",
-    "title": "task5",
-    "description": "genta1",
-    "creationDate": "2024-10-16T13:28:22.325Z",
+    "id": "1729169340809",
+    "title": "Task 2",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "creationDate": "2024-10-17T12:49:00.810Z",
     "tags": [
       "personal"
     ],
